@@ -69,7 +69,7 @@ public class orderheadlist extends HttpServlet {
 		String pagestr=pageobj.GetPageInfo();
 		request.setAttribute("pagestr", pagestr);
 		request.setAttribute("list", listpage);
-		request.getRequestDispatcher("orderheadlist.jsp").forward(request, response);
+		request.getRequestDispatcher("./admin/orderheadlist.jsp").forward(request, response);
 	}
 
 	/**

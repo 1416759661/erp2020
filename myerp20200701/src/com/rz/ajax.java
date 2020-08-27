@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -48,6 +50,7 @@ public class ajax extends HttpServlet {
 		    case "5":getprotypehtml(request,response);break; 
 		    case "6":getprotypehtmlforedit(request,response);break; 
 		    case "7":getproviewbynum(request,response);break; 
+		    case "8":addtocarbatch(request,response);break; 
 		    default : break;
 		}
 		
@@ -61,6 +64,147 @@ public class ajax extends HttpServlet {
 		 * */
 		
 	}
+	protected void addtocarbatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idstr=request.getParameter("idstr");
+		String[] idarray = idstr.split(",");
+		for(String s:idarray)
+        {
+        	if(!s.equals("0"))
+        	{
+        		addtocarsinge(request,response,s);
+        	}
+        }		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.getWriter().write("{\"msg\":\"ok\"}");
+		
+	}
+	
+	protected void addtocarsinge(HttpServletRequest request, HttpServletResponse response,String id) throws ServletException, IOException {
+		DBHelper db=new DBHelper();
+		String sessionid=request.getSession().getId();
+		Boolean flag=false;
+    	String StrSqlexist="select * from tbshoppingcar where sessionid=? and proid=? ";
+    	List<Map<String, Object>> carrecordlist = null;
+    	List<Object> paramsexist = new ArrayList<Object>();
+    	paramsexist.add(sessionid);
+    	paramsexist.add(id);
+    	try {
+			carrecordlist=db.executeQuery(StrSqlexist, paramsexist);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	if(carrecordlist.size()>0)
+    	{
+    		flag=true;
+    	}
+		if(flag)
+		{
+			//修改个数
+			String strSql1="update tbshoppingcar set procount=procount+1 where sessionid=? and proid=? ";
+			List<Object> paramsupdate = new ArrayList<Object>();
+			paramsupdate.add(sessionid);
+			paramsupdate.add(id);
+			db.excuteSql(strSql1, paramsupdate);
+		}
+		else
+		{
+			//根据id把商品信息查询出来。
+			List<Object> params = new ArrayList<Object>();
+			String StrSqlpro="select * from tbproduct where id="+id;
+			Map<String, Object> obj=db.getSingleObject(StrSqlpro, params);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+			String createtime=df.format(new Date());
+			//新增
+			String strSql2="insert into tbshoppingcar (sessionid,proname,proid,procount,ctime,imgurl,price) values(?,?,?,?,?,?,?) ";
+			params.add(sessionid);
+			params.add(obj.get("proname"));
+			params.add(id);
+			params.add(1);
+			params.add(createtime);
+			params.add(obj.get("imgurl"));
+			params.add(obj.get("price"));
+			db.excuteSql(strSql2, params);
+			
+		}
+	}
+	
+	
+	public String getDateFormat(){
+	    SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	    return df.format(new Date());    
+	} 
+
+	/**
+	 * 进货下单
+	 */
+	protected void addtoorder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Map<String, Object> obj=(Map<String,Object>)request.getSession().getAttribute("currentmember");	
+		String memberid=obj.get("id").toString();
+		String tbname=request.getParameter("tbname");
+		String tbtel=request.getParameter("tbtel");
+		String tbaddress=request.getParameter("tbaddress");
+	    String sessionid=request.getSession().getId();
+	    
+	    String strSqlcarpros="select * from tbshoppingcar where sessionid=? ";
+	    DBHelper db=new DBHelper();
+	    List<Object> params = new ArrayList<Object>();
+	    params.add(sessionid);
+	    List<Map<String,Object>> carprolist=null;
+	    try {
+	    	carprolist=db.executeQuery(strSqlcarpros,params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    if(!(carprolist.size()>0))
+	    {
+	    	return;
+	    }
+	    	    
+	    Date t=new Date();
+	    SimpleDateFormat df1 = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	    SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String orderid=df1.format(t);
+	    String createtime=df2.format(t);
+
+	    int sum=0;
+	    for (Map<String, Object> m : carprolist) {
+	    	sum=sum+Integer.parseInt(m.get("price").toString())*Integer.parseInt(m.get("procount").toString());//鍟嗗搧鍗曚环*鍟嗗搧涓暟
+	    	
+	    	String strSqlitems="insert into tborderitems (orderid,proid,proname,price,procount) values (?,?,?,?,?)";
+	    	List<Object> paramsitems = new ArrayList<Object>();
+	    	paramsitems.add(orderid);
+	    	paramsitems.add(m.get("proid"));
+	    	paramsitems.add(m.get("proname"));
+	    	paramsitems.add(m.get("price"));
+	    	paramsitems.add(m.get("procount"));
+	    	db.excuteSql(strSqlitems, paramsitems);
+	    }
+	    
+	   
+	  
+	    String StrSql1="insert into tborderhead (orderid,sname,stel,saddress,sumprice,memberid,ctime) values (?,?,?,?,?,?,?)";
+	    List<Object> params1 = new ArrayList<Object>();
+	    params1.add(orderid);
+	    params1.add(tbname);
+	    params1.add(tbtel);
+	    params1.add(tbaddress);
+	    params1.add(sum);
+	    params1.add(memberid);
+	    params1.add(createtime);
+	    db.excuteSql(StrSql1, params1);
+	    
+	  
+	    String strSqlClearCar="delete from tbshoppingcar where sessionid=?";
+	    db.excuteSql(strSqlClearCar, params);
+	    
+	    response.setCharacterEncoding("utf-8");
+		response.setContentType("text/json;charset=utf-8");
+		response.getWriter().write("{\"msg\":\"ok\"}");
+	}
+	
+	
 	
 	
 	protected void getproviewbynum(HttpServletRequest request,HttpServletResponse response) throws IOException{

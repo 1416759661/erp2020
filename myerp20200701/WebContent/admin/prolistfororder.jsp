@@ -15,7 +15,7 @@
 List<Map<String, Object>> list = (List<Map<String, Object>>)request.getAttribute("list");
 String pagestr = (String)request.getAttribute("pagestr");
 %>
-<p class="path">当前位置:/夜鹰进销存系统/产品中心/产品列表</p>
+<p class="path">当前位置:/夜鹰进销存系统/进货管理/商品列表</p>
 
 <table border="0" cellspacing="0" cellpadding="0" class="tb tblist">
        <tr>
@@ -34,7 +34,7 @@ String pagestr = (String)request.getAttribute("pagestr");
     </table>
     
     <div class="pager">
-       		<%=pagestr%>
+       <input type="button" value="添加" id="addSelect" class="btn"/>	<%=pagestr%>
     </div>
     
     <script src="./js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
@@ -53,9 +53,10 @@ String pagestr = (String)request.getAttribute("pagestr");
             s += "," + $(item).val();
         });
         s+= ",0";
-        $.post("./ajax?" + Math.random(), { rnum: "1000", idstr: s, roleid: roleid }, function (res) {
+        $.post("./ajax?" + Math.random(), { rnum: "8", idstr: s}, function (res) {
             location.reload();
-            window.parent.frames["right"].document.location.reload();
+            window.parent.frames["right"].document.location.href="./orderright";
+            //window.parent.frames["right"].document.location.reload();
         });
     });
     </script>

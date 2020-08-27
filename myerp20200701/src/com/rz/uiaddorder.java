@@ -43,7 +43,7 @@ public class uiaddorder extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Map<String, Object> obj=(Map<String,Object>)request.getSession().getAttribute("currentmember");	
+		Map<String, Object> obj=(Map<String,Object>)request.getSession().getAttribute("currentuser");	
 		String memberid=obj.get("id").toString();
 		String tbname=request.getParameter("tbname");
 		String tbtel=request.getParameter("tbtel");
@@ -75,13 +75,14 @@ public class uiaddorder extends HttpServlet {
 	    for (Map<String, Object> m : carprolist) {
 	    	sum=sum+Integer.parseInt(m.get("price").toString())*Integer.parseInt(m.get("procount").toString());//鍟嗗搧鍗曚环*鍟嗗搧涓暟
 	    	
-	    	String strSqlitems="insert into tborderitems (orderid,proid,proname,price,procount) values (?,?,?,?,?)";
+	    	String strSqlitems="insert into tborderitems (orderid,proid,proname,price,procount,imgurl) values (?,?,?,?,?,?)";
 	    	List<Object> paramsitems = new ArrayList<Object>();
 	    	paramsitems.add(orderid);
 	    	paramsitems.add(m.get("proid"));
 	    	paramsitems.add(m.get("proname"));
 	    	paramsitems.add(m.get("price"));
 	    	paramsitems.add(m.get("procount"));
+	    	paramsitems.add(m.get("imgurl"));
 	    	db.excuteSql(strSqlitems, paramsitems);
 	    }
 	    

@@ -24,7 +24,7 @@ String pagestr = (String)request.getAttribute("pagestr");
        <%for (Map<String, Object> m : list) { %>
         <tr>
        		<td><%=m.get("id")%></td>
-       		<td><img src="./upload/<%=m.get("imgurl")%>" style="width:120px;height:35px;padding:5px 0px;"></td>
+       		<td><img src="./upload/<%=m.get("imgurl")%>" style="width:120px;height:38px;padding:5px 0px;"></td>
        		<td data-typeid="<%=m.get("typeid")%>" class="typename" title="<%=m.get("fullpath")%>"><%=m.get("typename")%></td>
        		<td><%=m.get("pronum")%></td>
        		<td><img src="./twocode/<%=m.get("procodeurl")%>" style="width:38px;height:38px;padding:5px 0px;"></td>

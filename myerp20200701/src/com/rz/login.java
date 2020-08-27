@@ -51,6 +51,7 @@ public class login extends HttpServlet {
 		}
 		if(userlist.size()>0)
 		{
+			//currentmember
 			request.getSession().setAttribute("currentuser", userlist.get(0));
 			response.sendRedirect("/myerp20200701/admin/default.jsp");
 			

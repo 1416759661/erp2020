@@ -111,7 +111,6 @@
 	border: solid 1px #ccc;
 }
 
-/*display: block; 将行内元素转变为块级元素  就可以设置他的宽和高*/
 .pronumber span{
 	display: block;
 	width: 40px;

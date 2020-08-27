@@ -12,11 +12,11 @@ List<Map<String, Object>> orderitems = (List<Map<String, Object>>)request.getAtt
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../css/comm.css"/>
+<link rel="stylesheet" type="text/css" href="./css/comm.css"/>
 </head>
 <body>
 <p class="path">商城后台系统/订单中心/订单明细</p>
-<table border="0" cellspacing="0" cellpadding="0" class="tb tblis" style="margin-bottom:2px;">
+<table border="0" cellspacing="0" cellpadding="0" class="tb tblist" style="margin-bottom:2px;">
 <tr><td style="width:120px;">订单号</td><td style="text-align:left;"><%=orderhead.get("orderid")%></td></tr>
 
 <tr><td>总金额</td><td style="text-align:left;"><%=orderhead.get("sumprice")%></td></tr>
@@ -26,7 +26,7 @@ List<Map<String, Object>> orderitems = (List<Map<String, Object>>)request.getAtt
 <tr><td>下单时间</td><td style="text-align:left;"><%=orderhead.get("ctime")%></td></tr>
 </table>
 
-<table border="0" cellspacing="0" cellpadding="0" class="tb tblis">
+<table border="0" cellspacing="0" cellpadding="0" class="tb tblist">
        <tr>
        	  <td>商品名称</td><td style="width:120px;">单价</td><td style="width:120px;">数量</td><td style="width:200px;">合计</td>   
        </tr>

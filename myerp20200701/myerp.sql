@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-24 20:53:08
+Date: 2020-08-27 15:05:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,7 +98,7 @@ CREATE TABLE `tbmenubar` (
   `OrderList` int(11) DEFAULT NULL,
   `Visible` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbmenubar
@@ -116,7 +116,7 @@ INSERT INTO `tbmenubar` VALUES ('10', '管理类别', '2', '2', '2,10', './tbtyp
 INSERT INTO `tbmenubar` VALUES ('11', '新增商品', '2', '2', '2,11', './admin/proadd.jsp', 'main', '1', '1');
 INSERT INTO `tbmenubar` VALUES ('12', '管理商品', '2', '2', '2,12', './prolist', 'main', '1', '1');
 INSERT INTO `tbmenubar` VALUES ('13', '创建进货单', '3', '2', '3,13', './admin/ordermain.jsp', 'main', '1', '1');
-INSERT INTO `tbmenubar` VALUES ('14', '管理进货单', '3', '2', '3,14', './admin/ordermain.jsp', 'main', '2', '1');
+INSERT INTO `tbmenubar` VALUES ('14', '管理进货单', '3', '2', '3,14', './orderheadlist', 'main', '2', '1');
 INSERT INTO `tbmenubar` VALUES ('15', '销售开单', '4', '2', '4,15', null, 'main', '1', '1');
 INSERT INTO `tbmenubar` VALUES ('16', '维护订单', '4', '2', '4,16', null, 'main', '1', '1');
 INSERT INTO `tbmenubar` VALUES ('17', '库存入库', '5', '2', '5,17', './admin/proinout.jsp?t=1', 'main', '1', '1');
@@ -128,6 +128,7 @@ INSERT INTO `tbmenubar` VALUES ('22', '角色管理', '1', '2', '1,22', './rolel
 INSERT INTO `tbmenubar` VALUES ('23', '入库管理', '0', '1', '23', '', null, '5', '0');
 INSERT INTO `tbmenubar` VALUES ('24', '出库管理', '0', '1', '24', null, null, '6', '0');
 INSERT INTO `tbmenubar` VALUES ('25', '明细查询', '5', '2', '5,25', './inoutlist', 'main', '1', '1');
+INSERT INTO `tbmenubar` VALUES ('26', '进货报表', '6', '2', '6,26', './admin/jinhuo.jsp', 'main', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbnews`
@@ -164,11 +165,15 @@ CREATE TABLE `tborderhead` (
   `ptime` varchar(255) DEFAULT NULL,
   `memo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tborderhead
 -- ----------------------------
+INSERT INTO `tborderhead` VALUES ('27', '20200826170541673', '超级管理员', '15397600038', '四川成都总部', '11499', '1', '2020-08-26 17:05:41', null, null);
+INSERT INTO `tborderhead` VALUES ('28', '20200826170551874', '超级管理员', '15397600038', '四川成都总部', '4200', '1', '2020-08-26 17:05:51', null, null);
+INSERT INTO `tborderhead` VALUES ('29', '20200826170708899', '超级管理员', '15397600038', '四川成都总部', '4200', '1', '2020-08-26 17:07:08', null, null);
+INSERT INTO `tborderhead` VALUES ('30', '20200826171434818', '超级管理员', '15397600038', '四川成都总部', '49000', '1', '2020-08-26 17:14:34', null, null);
 
 -- ----------------------------
 -- Table structure for `tborderitems`
@@ -183,11 +188,18 @@ CREATE TABLE `tborderitems` (
   `procount` int(11) DEFAULT NULL,
   `imgurl` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tborderitems
 -- ----------------------------
+INSERT INTO `tborderitems` VALUES ('41', '20200826170541673', '21', 'MateBook 13', '5200', '1', null);
+INSERT INTO `tborderitems` VALUES ('42', '20200826170541673', '17', '格力空调gl-2020', '6299', '1', null);
+INSERT INTO `tborderitems` VALUES ('43', '20200826170551874', '20', '戴尔DELL灵越5000', '4200', '1', null);
+INSERT INTO `tborderitems` VALUES ('44', '20200826170708899', '20', '戴尔DELL灵越5000', '4200', '1', null);
+INSERT INTO `tborderitems` VALUES ('45', '20200826171434818', '21', 'MateBook 13', '5200', '2', '20200824172055164.png');
+INSERT INTO `tborderitems` VALUES ('46', '20200826171434818', '20', '戴尔DELL灵越5000', '4200', '3', '20200824171708716.png');
+INSERT INTO `tborderitems` VALUES ('47', '20200826171434818', '18', '华为MateBook14', '5200', '5', '20200824171445193.png');
 
 -- ----------------------------
 -- Table structure for `tbproduct`
@@ -227,7 +239,7 @@ CREATE TABLE `tbrolehasmenu` (
   `menuid` int(11) DEFAULT NULL,
   `menuname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbrolehasmenu
@@ -282,6 +294,7 @@ INSERT INTO `tbrolehasmenu` VALUES ('139', '3', null, '13', null);
 INSERT INTO `tbrolehasmenu` VALUES ('140', '1', null, '24', null);
 INSERT INTO `tbrolehasmenu` VALUES ('141', '1', null, '23', null);
 INSERT INTO `tbrolehasmenu` VALUES ('142', '1', null, '25', null);
+INSERT INTO `tbrolehasmenu` VALUES ('143', '1', null, '26', null);
 
 -- ----------------------------
 -- Table structure for `tbroles`
@@ -292,7 +305,7 @@ CREATE TABLE `tbroles` (
   `rolename` varchar(50) DEFAULT NULL,
   `memo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbroles
@@ -341,6 +354,28 @@ CREATE TABLE `tbsaleorderitems` (
 -- ----------------------------
 -- Records of tbsaleorderitems
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tbshoppingcar`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbshoppingcar`;
+CREATE TABLE `tbshoppingcar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sessionid` varchar(32) DEFAULT NULL,
+  `proname` varchar(255) DEFAULT NULL,
+  `proid` int(11) DEFAULT NULL,
+  `procount` int(11) DEFAULT NULL,
+  `ctime` varchar(255) DEFAULT NULL,
+  `imgurl` varchar(255) DEFAULT NULL,
+  `price` decimal(10,0) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tbshoppingcar
+-- ----------------------------
+INSERT INTO `tbshoppingcar` VALUES ('75', '41EFB73C20B2B946AB68D8917961A513', 'MateBook 13', '21', '1', '2020-08-26 15:39:18', '20200824172055164.png', '5200');
+INSERT INTO `tbshoppingcar` VALUES ('76', '41EFB73C20B2B946AB68D8917961A513', '戴尔DELL灵越5000', '20', '1', '2020-08-26 15:39:18', '20200824171708716.png', '4200');
 
 -- ----------------------------
 -- Table structure for `tbsupplier`
@@ -424,7 +459,7 @@ CREATE TABLE `tbusers` (
 -- ----------------------------
 -- Records of tbusers
 -- ----------------------------
-INSERT INTO `tbusers` VALUES ('1', 'admin', '123456', '超级管理员', '15397600038', '超级管理员', null, null);
+INSERT INTO `tbusers` VALUES ('1', 'admin', '123456', '超级管理员', '15397600038', '四川成都总部', null, null);
 INSERT INTO `tbusers` VALUES ('2', 'tangyan05', '123456', '张三', '15397600036', '上海江浦路店', null, null);
 INSERT INTO `tbusers` VALUES ('7', 'feifei', '123456', '郭靖', '15988886666', '北京复兴门外大街10086号', null, null);
 INSERT INTO `tbusers` VALUES ('8', 'tangyan03', '123456', '刘湘', '15397600035', '重庆来福士广场店', null, null);
